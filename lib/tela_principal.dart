@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
-// ignore_for_file: prefer_const_constructors
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'cartao_padrao.dart';
+import 'couteudo_icone.dart';
 
+const corContainerInativo = Color(0xFF7E7E7E);
 const corContainer = Color(0xFF9E9E9E);
+const containerCalcular = Color(0xFFFF5823);
+const tamanhoContainerCalcular = 80.0;
 
 class TelaCalculadora extends StatefulWidget {
   const TelaCalculadora({super.key});
@@ -11,11 +16,16 @@ class TelaCalculadora extends StatefulWidget {
 }
 
 class _TelaCalculadoraState extends State<TelaCalculadora> {
+  Color corMasculinoPadrao = corContainerInativo;
+  Color corFemininoPadrao = corContainerInativo;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Calculadora IMC'),
+        title: const Text(
+          'Calculadora IMC',
+        ),
       ),
       body: Column(
         children: [
@@ -23,23 +33,33 @@ class _TelaCalculadoraState extends State<TelaCalculadora> {
             child: Row(
               children: [
                 Expanded(
+                  child: GestureDetector(
+                    onTap: (() {}),
                     child: CartaoPadrao(
-                  cor: corContainer,
-                )),
+                      filhoContainer: const ConteudoIcone(
+                          icone: FontAwesomeIcons.mars, descricao: 'MASCULINO'),
+                      cor: corMasculinoPadrao,
+                    ),
+                  ),
+                ),
                 Expanded(
-                    child: CartaoPadrao(
-                  cor: corContainer,
-                )),
+                  child: CartaoPadrao(
+                    filhoContainer: const ConteudoIcone(
+                        icone: FontAwesomeIcons.venus, descricao: "FEMININO"),
+                    cor: corFemininoPadrao,
+                  ),
+                ),
               ],
             ),
           ),
-          Expanded(
-              child: CartaoPadrao(
-            cor: corContainer,
-          )),
+          const Expanded(
+            child: CartaoPadrao(
+              cor: corContainer,
+            ),
+          ),
           Expanded(
             child: Row(
-              children: [
+              children: const [
                 Expanded(
                   child: CartaoPadrao(
                     cor: corContainer,
@@ -53,23 +73,12 @@ class _TelaCalculadoraState extends State<TelaCalculadora> {
               ],
             ),
           ),
+          Container(
+            color: containerCalcular,
+            height: tamanhoContainerCalcular,
+            width: double.infinity,
+          ),
         ],
-      ),
-    );
-  }
-}
-
-class CartaoPadrao extends StatelessWidget {
-  CartaoPadrao({super.key, required this.cor});
-  final Color cor;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.all(20),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10),
-        color: cor,
       ),
     );
   }
