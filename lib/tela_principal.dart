@@ -1,12 +1,10 @@
+import 'package:calculadora_imc/constantes.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'cartao_padrao.dart';
 import 'couteudo_icone.dart';
 
-const corContainerInativo = Color(0xFF7E7E7E);
-const corContainer = Color(0xFF9E9E9E);
-const containerCalcular = Color(0xFFFF5823);
-const tamanhoContainerCalcular = 80.0;
+enum Sexo { masculino, feminino }
 
 class TelaCalculadora extends StatefulWidget {
   const TelaCalculadora({super.key});
@@ -16,8 +14,8 @@ class TelaCalculadora extends StatefulWidget {
 }
 
 class _TelaCalculadoraState extends State<TelaCalculadora> {
-  Color corMasculinoPadrao = corContainerInativo;
-  Color corFemininoPadrao = corContainerInativo;
+  Sexo? sexoSelecionado;
+  int altura = 180;
 
   @override
   Widget build(BuildContext context) {
@@ -28,33 +26,83 @@ class _TelaCalculadoraState extends State<TelaCalculadora> {
         ),
       ),
       body: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Expanded(
             child: Row(
               children: [
                 Expanded(
-                  child: GestureDetector(
-                    onTap: (() {}),
-                    child: CartaoPadrao(
-                      filhoContainer: const ConteudoIcone(
-                          icone: FontAwesomeIcons.mars, descricao: 'MASCULINO'),
-                      cor: corMasculinoPadrao,
-                    ),
+                  child: CartaoPadrao(
+                    selecionaCartao: () {
+                      setState(() {
+                        sexoSelecionado = Sexo.masculino;
+                      });
+                    },
+                    filhoContainer: const ConteudoIcone(
+                        icone: FontAwesomeIcons.mars, descricao: 'MASCULINO'),
+                    cor: sexoSelecionado == Sexo.masculino
+                        ? kCorContainer
+                        : kCorContainerInativo,
                   ),
                 ),
                 Expanded(
                   child: CartaoPadrao(
+                    selecionaCartao: () {
+                      setState(() {
+                        sexoSelecionado = Sexo.feminino;
+                      });
+                    },
                     filhoContainer: const ConteudoIcone(
                         icone: FontAwesomeIcons.venus, descricao: "FEMININO"),
-                    cor: corFemininoPadrao,
+                    cor: sexoSelecionado == Sexo.feminino
+                        ? kCorContainer
+                        : kCorContainerInativo,
                   ),
                 ),
               ],
             ),
           ),
-          const Expanded(
+          Expanded(
             child: CartaoPadrao(
-              cor: corContainer,
+              filhoContainer: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text(
+                    'ALTURA',
+                    style: kDescricaoTextStyle,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.baseline,
+                    textBaseline: TextBaseline.alphabetic,
+                    children: [
+                      Text(
+                        altura.toString(),
+                        style: kNumerosTextStyle,
+                      ),
+                      const Text(
+                        'cm',
+                        style: kDescricaoTextStyle,
+                      ),
+                    ],
+                  ),
+                  Slider(
+                    activeColor: kContainerCalcular,
+                    inactiveColor: const Color(0xFF8D8E98),
+                    value: altura.toDouble(),
+                    min: 120,
+                    max: 220,
+                    onChanged: (double novoValor) {
+                      setState(
+                        () {
+                          altura = novoValor.round();
+                        },
+                      );
+                    },
+                  ),
+                ],
+              ),
+              cor: kCorContainer,
             ),
           ),
           Expanded(
@@ -62,20 +110,20 @@ class _TelaCalculadoraState extends State<TelaCalculadora> {
               children: const [
                 Expanded(
                   child: CartaoPadrao(
-                    cor: corContainer,
+                    cor: kCorContainer,
                   ),
                 ),
                 Expanded(
                   child: CartaoPadrao(
-                    cor: corContainer,
+                    cor: kCorContainer,
                   ),
                 ),
               ],
             ),
           ),
           Container(
-            color: containerCalcular,
-            height: tamanhoContainerCalcular,
+            color: kContainerCalcular,
+            height: kTamanhoContainerCalcular,
             width: double.infinity,
           ),
         ],
