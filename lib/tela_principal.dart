@@ -1,8 +1,11 @@
 import 'package:calculadora_imc/constantes.dart';
+import 'package:calculadora_imc/resultados.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'cartao_padrao.dart';
 import 'couteudo_icone.dart';
+import 'botao_inferior.dart';
+import 'botao_arredondado.dart';
 
 enum Sexo { masculino, feminino }
 
@@ -16,6 +19,8 @@ class TelaCalculadora extends StatefulWidget {
 class _TelaCalculadoraState extends State<TelaCalculadora> {
   Sexo? sexoSelecionado;
   int altura = 180;
+  int peso = 60;
+  int idade = 10;
 
   @override
   Widget build(BuildContext context) {
@@ -107,24 +112,97 @@ class _TelaCalculadoraState extends State<TelaCalculadora> {
           ),
           Expanded(
             child: Row(
-              children: const [
+              children: [
                 Expanded(
                   child: CartaoPadrao(
+                    filhoContainer: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Text(
+                          'Peso',
+                          style: kDescricaoTextStyle,
+                        ),
+                        Text(
+                          peso.toString(),
+                          style: kNumerosTextStyle,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            BotaoArredondado(
+                              icone: FontAwesomeIcons.plus,
+                              mudaBotaoArredondado: () {
+                                setState(() {
+                                  peso--;
+                                });
+                              },
+                            ),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            BotaoArredondado(
+                              icone: FontAwesomeIcons.plus,
+                              mudaBotaoArredondado: () {
+                                setState(() {
+                                  peso++;
+                                });
+                              },
+                            ),
+                          ],
+                        )
+                      ],
+                    ),
                     cor: kCorContainer,
                   ),
                 ),
                 Expanded(
                   child: CartaoPadrao(
+                    filhoContainer: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Text('Idade', style: kDescricaoTextStyle),
+                        Text(
+                          idade.toString(),
+                          style: kNumerosTextStyle,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            BotaoArredondado(
+                              icone: FontAwesomeIcons.plus,
+                              mudaBotaoArredondado: () {
+                                setState(() {
+                                  idade--;
+                                });
+                              },
+                            ),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            BotaoArredondado(
+                              icone: Icons.abc,
+                              mudaBotaoArredondado: () {
+                                setState(() {
+                                  idade++;
+                                });
+                              },
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
                     cor: kCorContainer,
                   ),
                 ),
               ],
             ),
           ),
-          Container(
-            color: kContainerCalcular,
-            height: kTamanhoContainerCalcular,
-            width: double.infinity,
+          BotaoInferior(
+            tituloBotao: 'Calcular',
+            aoPressionar: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => TelaResultado()));
+            },
           ),
         ],
       ),
