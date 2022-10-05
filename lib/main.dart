@@ -1,5 +1,4 @@
-// ignore_for_file: prefer_const_constructors
-import 'tela_principal.dart';
+import './telas/tela_principal.dart';
 import 'package:flutter/material.dart';
 
 void main() => runApp(const CalculadoraIMC());
@@ -12,11 +11,10 @@ class CalculadoraIMC extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData.dark().copyWith(
-        primaryColor: Color(0xFF616161),
-        scaffoldBackgroundColor: Color(0xFF616161),
+        primaryColor: const Color(0xFF616161),
+        scaffoldBackgroundColor: const Color(0xFF616161),
       ),
-      home: TelaCalculadora(),
+      home: const TelaCalculadora(),
     );
   }
 }
- 

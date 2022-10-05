@@ -1,11 +1,12 @@
 import 'package:calculadora_imc/constantes.dart';
-import 'package:calculadora_imc/resultados.dart';
+import 'tela_resultados.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'cartao_padrao.dart';
-import 'couteudo_icone.dart';
-import 'botao_inferior.dart';
-import 'botao_arredondado.dart';
+import '../componentes/cartao_padrao.dart';
+import '../componentes/couteudo_icone.dart';
+import '../componentes/botao_inferior.dart';
+import '../componentes/botao_arredondado.dart';
+import 'package:calculadora_imc/calculadora_imc.dart';
 
 enum Sexo { masculino, feminino }
 
@@ -21,7 +22,7 @@ class _TelaCalculadoraState extends State<TelaCalculadora> {
   int altura = 180;
   int peso = 60;
   int idade = 10;
-
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -130,7 +131,7 @@ class _TelaCalculadoraState extends State<TelaCalculadora> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             BotaoArredondado(
-                              icone: FontAwesomeIcons.plus,
+                              icone: FontAwesomeIcons.minus,
                               mudaBotaoArredondado: () {
                                 setState(() {
                                   peso--;
@@ -169,7 +170,7 @@ class _TelaCalculadoraState extends State<TelaCalculadora> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             BotaoArredondado(
-                              icone: FontAwesomeIcons.plus,
+                              icone: FontAwesomeIcons.minus,
                               mudaBotaoArredondado: () {
                                 setState(() {
                                   idade--;
@@ -180,7 +181,7 @@ class _TelaCalculadoraState extends State<TelaCalculadora> {
                               width: 10,
                             ),
                             BotaoArredondado(
-                              icone: Icons.abc,
+                              icone: FontAwesomeIcons.plus,
                               mudaBotaoArredondado: () {
                                 setState(() {
                                   idade++;
@@ -200,8 +201,18 @@ class _TelaCalculadoraState extends State<TelaCalculadora> {
           BotaoInferior(
             tituloBotao: 'Calcular',
             aoPressionar: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => TelaResultado()));
+              CalculadoraImc calculo = CalculadoraImc(peso: peso, altura: altura);
+
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) =>  TelaResultado(
+                    textoResultado: calculo.calcularImc(),
+                    textoIMC: calculo.obterResultado(),
+                    textoAvaliacao: calculo.obterAvaliacao(),
+                  ),
+                ),
+              );
             },
           ),
         ],

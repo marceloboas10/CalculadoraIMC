@@ -1,9 +1,17 @@
-import 'package:calculadora_imc/cartao_padrao.dart';
+import '../componentes/cartao_padrao.dart';
 import 'package:calculadora_imc/constantes.dart';
 import 'package:flutter/material.dart';
 
 class TelaResultado extends StatelessWidget {
-  const TelaResultado({super.key});
+  const TelaResultado(
+      {super.key,
+      required this.textoIMC,
+      required this.textoResultado,
+      required this.textoAvaliacao});
+
+  final String textoIMC;
+  final String textoResultado;
+  final String textoAvaliacao;
 
   @override
   Widget build(BuildContext context) {
@@ -15,10 +23,14 @@ class TelaResultado extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          const Expanded(
-            child: Text(
-              'Resultado',
-              style: kTituloTexStyle,
+          Expanded(
+            child: Container(
+              padding: const EdgeInsets.all(15),
+              alignment: Alignment.bottomLeft,
+              child: const Text(
+                'Resultado',
+                style: kTituloTexStyle,
+              ),
             ),
           ),
           Expanded(
@@ -28,24 +40,24 @@ class TelaResultado extends StatelessWidget {
               filhoContainer: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 crossAxisAlignment: CrossAxisAlignment.center,
-                children: const [
+                children: [
                   Text(
-                    'Norma',
-                    style: TextStyle(
+                    textoResultado,
+                    style: const TextStyle(
                         color: Color(0xFF24d876),
                         fontSize: 50,
                         fontWeight: FontWeight.bold),
                   ),
                   Text(
-                    '18.4',
-                    style: TextStyle(
-                      fontSize: 100,
+                    textoIMC,
+                    style: const TextStyle(
+                      fontSize: 50,
                       fontWeight: FontWeight.bold,
                       color: Colors.black,
                     ),
                   ),
                   Text(
-                    'bla bla bla',
+                    textoAvaliacao,
                     textAlign: TextAlign.center,
                     style: kDescricaoTextStyle,
                   ),
@@ -63,7 +75,7 @@ class TelaResultado extends StatelessWidget {
               width: double.infinity,
               child: const Center(
                 child: Text(
-                  'Recalcular',
+                  'Refazer Teste',
                   style: TextStyle(
                     fontSize: 25,
                   ),
